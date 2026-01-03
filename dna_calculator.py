@@ -1,59 +1,89 @@
 import tkinter as tk
 from tkinter import messagebox
 
-def calculate_tm():
-    """Рассчитывает температуру отжига праймера (Tm)"""
+# --- Логика расчетов ---
+
+def calculate_dna():
+    """Рассчитывает Tm и GC-состав последовательности"""
     seq = seq_entry.get().upper().strip()
     
-    # Проверка на корректность ДНК
+    # Валидация: проверка, что введены только нуклеотиды
     if not seq or any(base not in 'ATGC' for base in seq):
-        messagebox.showerror("Ошибка", "Введите корректную последовательность (A, T, G, C)")
+        messagebox.showerror("Ошибка ввода", "Введите корректную последовательность ДНК (A, T, G, C)")
         return
 
-    # Формула Уоллеса (для коротких праймеров)
-    # Tm = 2*(A+T) + 4*(G+C)
-    a_t = seq.count('A') + seq.count('T')
-    g_c = seq.count('G') + seq.count('C')
-    tm = 2 * a_t + 4 * g_c
+    # Расчет Tm по формуле Уоллеса: Tm = 2*(A+T) + 4*(G+C)
+    at_count = seq.count('A') + seq.count('T')
+    gc_count = seq.count('G') + seq.count('C')
+    tm = 2 * at_count + 4 * gc_count
     
-    gc_content = (g_c / len(seq)) * 100
+    # Расчет GC-состава
+    gc_percent = (gc_count / len(seq)) * 100
     
-    result_text = f"Последовательность: {seq}\n" \
-                  f"Длина: {len(seq)} bp\n" \
-                  f"GC-состав: {gc_content:.1f}%\n" \
-                  f"Tm (примерная): {tm}°C"
+    result = f"Анализ для: {seq}\n" \
+             f"--------------------------\n" \
+             f"Длина: {len(seq)} bp\n" \
+             f"GC-состав: {gc_percent:.1f}%\n" \
+             f"Температура отжига (Tm): {tm}°C"
     
-    messagebox.showinfo("Результат анализа", result_text)
+    messagebox.showinfo("Результаты анализа", result)
 
-# Настройка главного окна
-window = tk.Tk()
-window.title("Biotech Lab Assistant")
-window.geometry("350x300")
-window.configure(bg='#F0F8FF') # Светло-голубой "лабораторный" фон
+def transcribe_dna():
+    """Выполняет транскрипцию ДНК в РНК"""
+    seq = seq_entry.get().upper().strip()
+    if not seq or any(base not in 'ATGC' for base in seq):
+        messagebox.showerror("Ошибка", "Некорректная последовательность для транскрипции")
+        return
+    
+    rna = seq.replace('T', 'U')
+    messagebox.showinfo("Транскрипция", f"Последовательность мРНК:\n\n{rna}")
 
-# Оформление
-header = tk.Label(window, text="Primer Analysis Tool", font=("Helvetica", 16, "bold"), 
-                  bg='#F0F8FF', fg='#2F4F4F')
-header.pack(pady=15)
+# --- Настройка графического интерфейса ---
 
-instruction = tk.Label(window, text="Введите последовательность праймера (5'->3'):", 
-                       bg='#F0F8FF', font=("Helvetica", 10))
-instruction.pack()
+root = tk.Tk()
+root.title("BioTech Lab Assistant v1.1")
+root.geometry("400x350")
+root.resizable(False, False)
+root.configure(bg='#F5F5F5') # Нейтральный лабораторный фон
 
-seq_entry = tk.Entry(window, font=("Courier", 12), width=25, justify='center')
+# Заголовок
+header = tk.Label(root, text="DNA Analysis Tool", font=("Segoe UI", 16, "bold"), 
+                  bg='#F5F5F5', fg='#2C3E50')
+header.pack(pady=20)
+
+# Поле ввода
+input_label = tk.Label(root, text="Введите последовательность ДНК (5'->3'):", 
+                       bg='#F5F5F5', font=("Segoe UI", 10))
+input_label.pack()
+
+seq_entry = tk.Entry(root, font=("Consolas", 12), width=30, justify='center', 
+                     fg='#2C3E50', relief="flat", highlightthickness=1)
 seq_entry.pack(pady=10)
 
-# Кнопка расчета
-calc_btn = tk.Button(window, text="Рассчитать Tm и GC", 
-                     command=calculate_tm, 
-                     bg='#4682B4', fg='white', 
-                     font=("Helvetica", 10, "bold"), 
-                     padx=10, pady=5)
-calc_btn.pack(pady=20)
+# Подсказка
+hint = tk.Label(root, text="Пример: ATGCGTAC... ", bg='#F5F5F5', 
+                fg='#7F8C8D', font=("Segoe UI", 8))
+hint.pack()
 
-# Инфо-блок внизу
-footer = tk.Label(window, text="BioTech 3rd Year Project", 
-                  bg='#F0F8FF', fg='#778899', font=("Helvetica", 8, "italic"))
+# Кнопки действий
+btn_frame = tk.Frame(root, bg='#F5F5F5')
+btn_frame.pack(pady=20)
+
+# Кнопка 1: Анализ Tm/GC
+calc_btn = tk.Button(btn_frame, text="Расчет Tm & GC%", command=calculate_dna, 
+                     bg='#3498DB', fg='white', font=("Segoe UI", 10, "bold"), 
+                     width=20, relief="flat", cursor="hand2")
+calc_btn.pack(pady=5)
+
+# Кнопка 2: Транскрипция
+trans_btn = tk.Button(btn_frame, text="Транскрипция (DNA->RNA)", command=transcribe_dna, 
+                      bg='#2ECC71', fg='white', font=("Segoe UI", 10, "bold"), 
+                      width=20, relief="flat", cursor="hand2")
+trans_btn.pack(pady=5)
+
+# Подвал
+footer = tk.Label(root, text="Designed for Biotechnology Students | 2026", 
+                  bg='#F5F5F5', fg='#BDC3C7', font=("Segoe UI", 8))
 footer.pack(side="bottom", pady=10)
 
-window.mainloop()
+root.mainloop()
