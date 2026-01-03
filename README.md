@@ -1,6 +1,6 @@
 # biotech-gui-tools
 Python-based GUI application for laboratory calculations (DNA analysis, Tm calculation, and molarity)
-# BioTech Lab Assistant (GUI) 🧪
+# BioTech Lab Assistant (GUI)
 
 A desktop application designed to streamline routine laboratory calculations for biotechnologists. This tool provides a user-friendly interface for DNA analysis and PCR primer preparation.
 
