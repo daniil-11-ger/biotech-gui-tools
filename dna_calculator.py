@@ -1,89 +1,43 @@
-import tkinter as tk
-from tkinter import messagebox
+import streamlit as st
 
 # --- Bioinformatics Logic ---
 
-def calculate_dna():
-    """Calculates Tm and GC-content of the sequence"""
-    seq = seq_entry.get().upper().strip()
-    
-    # Validation: Ensure only nucleotide bases are entered
-    if not seq or any(base not in 'ATGC' for base in seq):
-        messagebox.showerror("Input Error", "Please enter a valid DNA sequence (A, T, G, C)")
-        return
-
-    # Wallace Rule Calculation: Tm = 2*(A+T) + 4*(G+C)
+def calculate_dna(seq):
     at_count = seq.count('A') + seq.count('T')
     gc_count = seq.count('G') + seq.count('C')
     tm = 2 * at_count + 4 * gc_count
-    
-    # GC-Content Calculation
-    gc_percent = (gc_count / len(seq)) * 100
-    
-    result = f"Analysis for: {seq}\n" \
-             f"--------------------------\n" \
-             f"Length: {len(seq)} bp\n" \
-             f"GC-Content: {gc_percent:.1f}%\n" \
-             f"Melting Temp (Tm): {tm}°C"
-    
-    messagebox.showinfo("Analysis Results", result)
+    gc_percent = (gc_count / len(seq)) * 100 if len(seq) > 0 else 0
+    return tm, gc_percent
 
-def transcribe_dna():
-    """Performs DNA to RNA transcription"""
-    seq = seq_entry.get().upper().strip()
-    if not seq or any(base not in 'ATGC' for base in seq):
-        messagebox.showerror("Error", "Invalid sequence for transcription")
-        return
-    
-    rna = seq.replace('T', 'U')
-    messagebox.showinfo("Transcription", f"mRNA Sequence:\n\n{rna}")
+def transcribe_dna(seq):
+    return seq.replace('T', 'U')
 
-# --- GUI Configuration ---
+# --- Streamlit Web Interface ---
 
-root = tk.Tk()
-root.title("BioTech Lab Assistant v1.1")
-root.geometry("400x350")
-root.resizable(False, False)
-root.configure(bg='#F5F5F5') # Professional lab-style background
+st.set_page_config(page_title="BioTech Lab Assistant v1.1", page_icon="🧬")
 
-# Header
-header = tk.Label(root, text="DNA Analysis Tool", font=("Segoe UI", 16, "bold"), 
-                  bg='#F5F5F5', fg='#2C3E50')
-header.pack(pady=20)
+st.title("🧬 DNA Analysis Tool")
+st.markdown("Developed for Biotechnology Research | 2026")
 
 # Input Field
-input_label = tk.Label(root, text="Enter DNA Sequence (5'->3'):", 
-                       bg='#F5F5F5', font=("Segoe UI", 10))
-input_label.pack()
+seq = st.text_input("Enter DNA Sequence (5'->3'):", placeholder="Example: ATGCGTAC...").upper().strip()
 
-seq_entry = tk.Entry(root, font=("Consolas", 12), width=30, justify='center', 
-                     fg='#2C3E50', relief="flat", highlightthickness=1)
-seq_entry.pack(pady=10)
+# Buttons (Action Columns)
+col1, col2 = st.columns(2)
 
-# Hint
-hint = tk.Label(root, text="Example: ATGCGTAC... ", bg='#F5F5F5', 
-                fg='#7F8C8D', font=("Segoe UI", 8))
-hint.pack()
-
-# Action Buttons
-btn_frame = tk.Frame(root, bg='#F5F5F5')
-btn_frame.pack(pady=20)
-
-# Button 1: Tm/GC Analysis
-calc_btn = tk.Button(btn_frame, text="Calculate Tm & GC%", command=calculate_dna, 
-                     bg='#3498DB', fg='white', font=("Segoe UI", 10, "bold"), 
-                     width=25, relief="flat", cursor="hand2")
-calc_btn.pack(pady=5)
-
-# Button 2: Transcription
-trans_btn = tk.Button(btn_frame, text="Transcription (DNA->RNA)", command=transcribe_dna, 
-                      bg='#2ECC71', fg='white', font=("Segoe UI", 10, "bold"), 
-                      width=25, relief="flat", cursor="hand2")
-trans_btn.pack(pady=5)
-
-# Footer
-footer = tk.Label(root, text="Developed for Biotechnology Research | 2026", 
-                  bg='#F5F5F5', fg='#BDC3C7', font=("Segoe UI", 8))
-footer.pack(side="bottom", pady=10)
-
-root.mainloop()
+if seq:
+    # Validation
+    if any(base not in 'ATGC' for base in seq):
+        st.error("Please enter a valid DNA sequence (A, T, G, C)")
+    else:
+        with col1:
+            if st.button("Calculate Tm & GC%"):
+                tm, gc_percent = calculate_dna(seq)
+                st.success(f"**Results:**\n\nLength: {len(seq)} bp\n\nGC-Content: {gc_percent:.1f}%\n\nMelting Temp (Tm): {tm}°C")
+        
+        with col2:
+            if st.button("Transcription (DNA->RNA)"):
+                rna = transcribe_dna(seq)
+                st.info(f"**mRNA Sequence:**\n\n{rna}")
+else:
+    st.write("Enter a sequence to see analysis options.")
