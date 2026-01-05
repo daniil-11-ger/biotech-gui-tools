@@ -1,8 +1,8 @@
-# biotech-gui-tools
 Python-based GUI application for laboratory calculations (DNA analysis, Tm calculation, and molarity)
 # BioTech Lab Assistant (GUI)
 
 # BioTech OS Pro
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://biotech-os-pro.streamlit.app/)
 
 **A comprehensive Bioinformatics Analysis Environment built with Streamlit and Python.**
 
