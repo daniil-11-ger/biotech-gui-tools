@@ -4,10 +4,7 @@ Python-based GUI application for laboratory calculations (DNA analysis, Tm calcu
 # BioTech OS Pro
 [![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://biotech-os-pro.streamlit.app/)
 
-**A comprehensive Bioinformatics Analysis Environment built with Streamlit and Python.**
 
-![Python](https://img.shields.io/badge/Python-3.9+-blue?style=for-the-badge&logo=python)
-![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?style=for-the-badge&logo=streamlit)
 
 ##  Core Modules
 
@@ -45,3 +42,7 @@ This is a fundamental calculation for determining the optimal annealing temperat
 1. Ensure you have Python installed.
 2. Download `dna_calculator.py`.
 3. Run the script: `python dna_calculator.py`
+**A comprehensive Bioinformatics Analysis Environment built with Streamlit and Python.**
+
+![Python](https://img.shields.io/badge/Python-3.9+-blue?style=for-the-badge&logo=python)
+![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?style=for-the-badge&logo=streamlit)
