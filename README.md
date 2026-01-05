@@ -2,6 +2,21 @@
 Python-based GUI application for laboratory calculations (DNA analysis, Tm calculation, and molarity)
 # BioTech Lab Assistant (GUI)
 
+# 🧬 BioTech OS Pro
+
+**A comprehensive Bioinformatics Analysis Environment built with Streamlit and Python.**
+
+![Python](https://img.shields.io/badge/Python-3.9+-blue?style=for-the-badge&logo=python)
+![Streamlit](https://img.shields.io/badge/Streamlit-App-FF4B4B?style=for-the-badge&logo=streamlit)
+
+## 🚀 Core Modules
+
+* **Sequence Analysis:** DNA/RNA to Protein translation with ORF finder.
+* **Restriction Mapping:** Virtual digestion with common enzymes (EcoRI, HindIII, etc.).
+* **Protein Biophysics:** Molecular weight, Hydropathy profile, and Isoelectric Point (pI) calculation.
+* **Alignment Engine:** Pairwise sequence alignment using the **Needleman-Wunsch algorithm**.
+* **Genome Stats:** GC-skew analysis and nucleotide distribution tracking.
+
 A desktop application designed to streamline routine laboratory calculations for biotechnologists. This tool provides a user-friendly interface for DNA analysis and PCR primer preparation.
 
 ## Current Features
