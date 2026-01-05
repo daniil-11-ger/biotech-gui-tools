@@ -15,6 +15,20 @@ Python-based GUI application for laboratory calculations (DNA analysis, Tm calcu
 * **Genome Stats:** GC-skew analysis and nucleotide distribution tracking.
 
 A desktop application designed to streamline routine laboratory calculations for biotechnologists. This tool provides a user-friendly interface for DNA analysis and PCR primer preparation.
+![Main App](screan/15.png)
+<details>
+<summary>Click to expand gallery</summary>
+
+### Main Dashboard
+
+
+### Sequence Statistics
+![Stats](screan/151.png)
+
+### Alignment & Visualization
+![Visuals](screan/153.png)
+
+</details>
 
 ## Current Features
 * **Tm Calculation:** Estimates the melting temperature (Tm) of oligonucleotide primers using the **Wallace Rule** (Salt-adjusted formula for sequences <14-20 bp).
